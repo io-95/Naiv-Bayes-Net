@@ -2,17 +2,14 @@ import csv
 import os
 
 def main():
-	filename = []
-	get_filename(filename)
+	filenames = []
+	get_filename(filenames)
 
-	string = []
-	for i in range(len(filename)):
-		string.append('cat 20_newsgroups/Training/Ath/' 
-		     			+ ''.join(filename[i]) 
-						+' | tr -d "[:punct:]" | tr -s "[:space:]" "\n" | sort | uniq -ci')
+	commands = []
+	creat_commands(commands, filenames)
 	
 	dictionary = {}
-	stream = os.popen(string[3]).read()
+	stream = os.popen(commands[3]).read()
 	output = stream.split('\n')
 
 	for line in output:
@@ -29,6 +26,13 @@ def get_filename(array):
 		reader = csv.reader(csvfile, delimiter='\n')
 		for row in reader:
 			array.append([str(num) for num in row])
+
+def creat_commands(commands, filenames):
+	for i in range(len(filenames)):
+		commands.append('cat 20_newsgroups/Training/Ath/' 
+		     			+ ''.join(filenames[i]) 
+						+' | tr -d "[:punct:]" | tr -s "[:space:]" "\n" | sort | uniq -ci')
+		
 
 if __name__ == '__main__':
 	main()
