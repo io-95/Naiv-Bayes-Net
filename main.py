@@ -9,16 +9,22 @@ def main():
 	creat_commands(commands, filenames)
 	
 	dictionary = {}
-	stream = os.popen(commands[3]).read()
-	output = stream.split('\n')
+	save_words_in_dictionary(dictionary, commands)
 
-	for line in output:
-		if line == '':
-			break
-		word1, word2 = line.split()
-		dictionary[word2] = word1
 
-	print(dictionary)
+def save_words_in_dictionary(dictionary, commands):
+	for i in range(len(commands)):
+		stream = os.popen(commands[i]).read()
+		output = stream.split('\n')
+
+		for line in output:
+			if line == '':
+				break
+			word1, word2 = line.split()
+			if word2 in dictionary:
+				dictionary[word2] += int(word1)
+			else:
+				dictionary[word2] = int(word1)
 
 def get_filename(array):
 	stream = os.popen('ls 20_newsgroups/Training/Ath >> buffer.txt')
