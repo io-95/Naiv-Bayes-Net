@@ -13,11 +13,12 @@ def main():
     save_words_in_dictionary(word_dictionary, commands)
 
     pos_neg_dictionary = {}
-    save_status_in_dictionary()
+    save_status_in_dictionary(pos_neg_dictionary)
+
+
 
 def save_words_in_dictionary(dictionary, commands):
     for i in range(len(commands)):
-        print(i)
         stream = os.popen(commands[i]).read()
         output = stream.split('\n')
 
@@ -31,8 +32,12 @@ def save_words_in_dictionary(dictionary, commands):
                 dictionary[word2] = int(word1)
 
 
-def save_status_in_dictionary():
-    pass
+def save_status_in_dictionary(dictionary):
+    with open('list.txt', "r", newline='') as f:
+        for row in f:
+            word1, word2 = row.split()
+            dictionary[word1] = int(word2)
+
 
 def get_filename(array):
     stream = os.popen('ls 20_newsgroups/Training/ >> buffer.txt')
